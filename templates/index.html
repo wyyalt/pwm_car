@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="{{ url_for('static',filename='nouislider.min.css')}}">
+	<style>
+
+	</style>
+</head>
+<body>
+<div style="width:900px;margin0 auto;">
+<div id="transverse" style="width:350px;margin:200px auto auto 120px;float:left;"></div> 
+<div id="vertical" style="height:350px;margin:40px auto auto 200px;float:left;"></div> 
+</div>
+ 
+</body>
+<script src="{{ url_for('static',filename='jquery-3.3.1.min.js')}}"></script>
+<script src="{{ url_for('static',filename='nouislider.min.js')}}"></script>
+<script>
+	$(function() {
+		var transverse = document.getElementById('transverse');
+		var vertical = document.getElementById('vertical');
+
+		noUiSlider.create(transverse, {
+			start:100,
+			connect: true,
+			step:1,
+			range: {
+				'min': 0,
+				'max': 200
+			}
+		});
+		noUiSlider.create(vertical, {
+			start:100,
+			connect: true,
+			orientation: "vertical",
+			step:1,
+			range: {
+				'min': 0,
+				'max': 200
+			}
+		});
+
+        transverse.noUiSlider.on('update', function(value,handle){
+			if (value >= 100){
+			$.get('/right/' + (value - 100) + "/",function(){
+					console.log(value - 100)
+				})
+			}else{
+				$.get('/left/' + (100 - value) + "/",function(){
+					console.log(100 - value)
+				})
+			}
+		});
+		
+		vertical.noUiSlider.on('update', function(value,handle){
+			if (value >= 100){
+				$.get('/front/' + (value - 100) + "/",function(){
+					console.log(value - 100)
+				})
+			}else{
+				$.get('/back/' + (100 - value) + "/",function(){
+					console.log(100 - value)
+				})
+			}
+		});
+
+		$("#vertical .noUi-handle").click(function () {
+            transverse.noUiSlider.set(100);
+        });
+
+        $("#transverse .noUi-handle").click(function () {
+            vertical.noUiSlider.set(100);
+        });
+	});
+
+</script>
+</html>
