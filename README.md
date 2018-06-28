@@ -14,3 +14,18 @@ GPIO口和IP根据实际需要在init函数中设置
 ```
 python pwm_car.py
 ```
+# 路由说明
+根据接口不同可能会出现反转，需要自行调试
+
+stop函数并未将redis复位，第二次启动需要手动将redis run 和 init设置为 0
+
+redis 复位可自行实现
+```
+/ 初始化GPIO
+/front/<speed>/ 后退
+/back/<speed>/  后退
+/left/<speed>/  左转
+/right/<speed>/ 右转
+/stop/ 停止
+```
+
